@@ -1,0 +1,18 @@
+ods noproctitle;
+ods graphics / imagemap=on;
+
+proc glmselect data=SASHELP.HEART outdesign(addinputvars)=Work.reg_design;
+	class Chol_Status / param=glm;
+	model AgeAtDeath=Cholesterol(Chol_Status) / showpvalues selection=none;
+run;
+
+proc reg data=Work.reg_design alpha=0.05 plots(only)=(diagnostics residuals 
+		observedbypredicted);
+	where Chol_Status is not missing;
+	ods select DiagnosticsPanel ResidualPlot ObservedByPredicted;
+	model AgeAtDeath=&_GLSMOD /;
+	run;
+quit;
+
+proc delete data=Work.reg_design;
+run;
