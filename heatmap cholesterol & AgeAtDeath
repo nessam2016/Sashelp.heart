@@ -1,0 +1,11 @@
+ods graphics / reset width=6.4in height=4.8in imagemap;
+
+proc sgplot data=SASHELP.HEART;
+	title height=14pt "Cholesterol Status & Age at Death Heat Map";
+	heatmap x=AgeAtDeath y=Chol_Status / name='HeatMap';
+	gradlegend 'HeatMap';
+	xaxis min=50 max=90;
+run;
+
+ods graphics / reset;
+title;
